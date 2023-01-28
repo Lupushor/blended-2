@@ -182,37 +182,59 @@ const users = [
 // 7.1
 // Получить массив имен всех пользователей (поле name).
 
-// console.log(getUserNames(usersData))
+const getUserNames = (usersData) => usersData.map(user => user.name);
+
+console.log(getUserNames(users))
 // [ 'Moore Hensley', 'Sharlene Bush', 'Ross Vazquez', 'Elma Head', 'Carey Barr', 'Blackburn Dotson', 'Sheree Anthony' ]
 
 // 7.2
 // Получить массив объектов пользователей по цвету глаз (поле eyeColor).
 
-// console.log(getUsersByColor(users, 'brown'))
+const getUsersByColor = (users, color) => users.filter(user => user.eyeColor === color)
+console.log(getUsersByColor(users, 'blue'))
 // console.log(getUsersWithEyeColor(users, 'blue')); // [объект Moore Hensley, объект Sharlene Bush, объект Carey Barr]
 
 // 7.3
 // Получить массив имен пользователей по полу (поле gender)
 
-// console.log(getUsersWithGender(users, 'male')); // [ 'Moore Hensley', 'Ross Vazquez', 'Carey Barr', 'Blackburn Dotson' ]
+const getUsersWithGender = (users, gender) => users.filter(user => user.gender === gender).map(user => user.name)
+// console.log(getUsersByColor(users, 'male'))
+
+console.log(getUsersWithGender(users, 'male')); // [ 'Moore Hensley', 'Ross Vazquez', 'Carey Barr', 'Blackburn Dotson' ]
 
 // 7.4
 // Получить массив только неактивных пользователей (поле isActive).
 
-// console.log(getInactiveUsers(users)); // [объект Moore Hensley, объект Ross Vazquez, объект Blackburn Dotson]
+// const getInactiveUsers = (users) => users.filter(user => !user.isActive).map(user => user.name)
+
+ // [объект Moore Hensley, объект Ross Vazquez, объект Blackburn Dotson]
+
+const getInactiveUsers = (users) => users.reduce((acc, user) => {
+    if (!user.isActive) {acc.push(user.name)}
+    return acc;
+}, [])
+
+console.log(getInactiveUsers(users));
 
 // 7.5
 // Получить пользователя (не массив) по email (поле email, он уникальный).
 
-// console.log(getUserWithEmail(users, 'shereeanthony@kog.com')); // {объект пользователя Sheree Anthony}
-// console.log(getUserWithEmail(users, 'elmahead@omatom.com')); // {объект пользователя Elma Head}
+// const getUserWithEmail = (users) => users.find((user) => user.email)
+
+const getUserWithEmail = (users, email) => users.find((user) => user.email === email)
+
+console.log(getUserWithEmail(users, 'shereeanthony@kog.com')); // {объект пользователя Sheree Anthony}
+console.log(getUserWithEmail(users, 'elmahead@omatom.com')); // {объект пользователя Elma Head}
 
 // 7.6
 // Получить массив пользователей в возрасте от min до max
 
-// console.log(getUsersWithAge(users, 30, 40))
+const getUsersWithAge = (users, min, max) => users.filter(user => user.age >= min && user.age <= max) //без имени
+//const getUsersWithAge = (users, min, max) => users.filter(user => user.age >= min && user.age <= max).map(user => user.name)//с именем
+
+console.log(getUsersWithAge(users, 20, 30))
 // [объект Ross Vazquez, объект Elma Head, объект Carey Barr]
-// console.log( getUsersWithAge( users, 30, 40 ) );
+console.log( getUsersWithAge( users, 30, 40 ) );
 // [объект Moore Hensley, объект Sharlene Bush, объект Blackburn Dotson, объект Sheree Anthony]
 
 // 7.7
@@ -229,14 +251,19 @@ const users = [
 // 7.9
 // Массив имен (поле name) людей, отсортированных в зависимости от количества их друзей (поле friends)
 
-// console.log(getNamesSortedByFriendsCount(users));
+// const getNamesSortedByFriendsCount = users => [...users].sort((userA, userB) => userA.friends.length - userB.friends.length).map(({friends, name}) => ({friends, name})) 
+const getNamesSortedByFriendsCount = users => [...users].sort((userA, userB) => userB.friends.length - userA.friends.length).map(({friends, name}) => ({friends, name})) 
+
+console.log(getNamesSortedByFriendsCount(users));
 // [ 'Moore Hensley', 'Sharlene Bush', 'Elma Head', 'Carey Barr', 'Blackburn Dotson', 'Sheree Anthony', 'Ross Vazquez' ]
 
 // 7.10
 // Получить массив всех умений всех пользователей (поле skills), при этом не должно быть
 // повторяющихся умений и они должны быть отсортированы в алфавитном порядке.
 
-// console.log(getSortedUniqueSkills(users))
+const getSortedUniqueSkills = (users) => users.flatMap(user => user.skills).filter((user, index, array) => array.indexOf(user) === index).sort((a, b,) => a.localeCompare(b))
+
+console.log(getSortedUniqueSkills(users))
 // [ 'adipisicing', 'amet', 'anim', 'commodo', 'culpa', 'elit', 'ex', 'ipsum', 'irure', 'laborum', 'lorem', 'mollit', 'non', 'nostrud', 'nulla', 'proident', 'tempor', 'velit', 'veniam' ]
 
 // ============================================================
